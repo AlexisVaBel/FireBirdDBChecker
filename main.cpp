@@ -53,7 +53,15 @@ void fillArgs(int opt){
         break;
         case 'i':
         case 'I':{
-        TRACE("usage: -H host1 -P path1 -h(if need host2) -p path2");
+        TRACE("********************* usage ***********************");
+        TRACE("*!!!!!!!!!!!!!!!!!!!! must be !!!!!!!!!!!!!!!!!!!!*");
+        TRACE("* -H host1 -P path1 -h(if need host2) -p path2    *");
+        TRACE("*path2 may be empty, use next command to repair db*");
+        TRACE("* -R                                              *");
+        TRACE("*                  not nescessary                 *");
+        TRACE("* use than have different user and password       *");
+        TRACE("* -U user1 -u user2 -W password1 -w password2     *");
+        TRACE("********************//usage ***********************");
         }
         break;
         case 'R':
@@ -69,14 +77,26 @@ void fillArgs(int opt){
 // 2 err mismatch tables
 
 int main(int argc, char** argv){
-//    setLoggingForDaemon();
+
+    TRACE("    .||. ");
+    TRACE("   |o_o |");
+    TRACE("   |:_/ |");
+    TRACE("  //   \\ \\");
+    TRACE(" (|     | )");
+    TRACE("/'\\_   _/`\\");
+    TRACE("\\___)=(___/");
+
+
+    setLoggingForDaemon();
     int opt=0;
     int iReturn=0;
     initArgs();
+    TRACE("======getting args======");
     do{        
         opt=getopt(argc,argv,optStrings);       
         fillArgs(opt);
     }while(opt!=-1);
+
 
     CDBFileInfo *fileInfo=NULL;
     CDBFileInfo *fileInfo2=NULL;
@@ -126,9 +146,6 @@ int main(int argc, char** argv){
         TRACE("repair DB");
         fileInfo->repairDB();
     }
-//    delete fileInfo;
-
-
-    // some group of return values if something wrong
+    delete fileInfo;
     return 0;
 }

@@ -2,6 +2,7 @@
 
 #include <system_error>
 #include <algorithm>
+#include <thread>
 #include "../loger/logging.h"
 
 
@@ -17,16 +18,22 @@ param[in] userName - user to connect with
 param[in] password - user`s password
 */
 CDBFileInfo::CDBFileInfo(stringT &&servHost, stringT &&filePath, stringT &&userName, stringT &&password):
-    m_strHost(servHost),m_strPath(filePath),m_strUser(userName),m_strPass(password){
+    m_strHost(servHost),m_strPath(filePath),m_strUser(userName),m_strPass(password),m_bCalledRepair(false){
     m_strHost.erase(std::remove(m_strHost.begin(),m_strHost.end(),' '),m_strHost.end());
     m_strPath.erase(std::remove(m_strPath.begin(),m_strPath.end(),' '),m_strPath.end());
     m_strUser.erase(std::remove(m_strUser.begin(),m_strUser.end(),' '),m_strUser.end());
     m_strPass.erase(std::remove(m_strPass.begin(),m_strPass.end(),' '),m_strPass.end());
 }
 
+CDBFileInfo::CDBFileInfo(CDBFileInfo *fileInfo):
+    m_strHost(fileInfo->m_strHost),m_strPath(fileInfo->m_strPath),
+    m_strUser(fileInfo->m_strUser),m_strPass(fileInfo->m_strPass){
+}
+
+
 CDBFileInfo::~CDBFileInfo(){
     TRACE(m_strPath+" disconnected");
-    disconnectDB();
+    if(!m_bCalledRepair)disconnectDB();
     for(CDBElement *elmlcl: m_vctElm){
         delete elmlcl;
     }
@@ -69,8 +76,8 @@ bool CDBFileInfo::cmpDBFiles(CDBFileInfo &dbInfo){
     return true;
 }
 
-vctDBElmT *CDBFileInfo::getVct(){
-    return &m_vctElm;
+std::shared_ptr<vctDBElmT> CDBFileInfo::getVct(){
+    return std::make_shared<vctDBElmT> (m_vctElm);
 }
 
 bool CDBFileInfo::existsElm(CDBElement *elmExt){
@@ -162,12 +169,17 @@ bool CDBFileInfo::findInVct(vctDBElmT vct1, CDBElement *elmExt){
     return false;
 }
 
+
+// connect only and only service, but not database
+// can cause error for databasse->disconnect();
 bool CDBFileInfo::repairDB(){
+    m_bCalledRepair = true;
     IBPP::Service svc=IBPP::ServiceFactory(m_strHost,m_strUser,m_strPass);
     if(svc==NULL)return false;
     if(!svc->Connected()){
         svc->Connect();
-    }
+    }    
+    if(!svc->Connected())return false;
     svc->Repair(m_strPath,IBPP::RPF::rpValidateFull);
     svc->Disconnect();
     return true;

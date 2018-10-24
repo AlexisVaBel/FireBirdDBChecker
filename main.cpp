@@ -1,6 +1,7 @@
 #include "loger/logging.h"
 #include "dbInfo/cdbfileinfo.hpp"
 #include "getopt.h"
+#include <memory>
 
 // example
 //-H localhost -P /work/cmn/db/mznkrp2/MZNKRP2MES.FDB -p /work/cmn/db/mznkrp2/MZNKRP2MES2.FDB
@@ -78,16 +79,46 @@ void fillArgs(int opt){
 
 int main(int argc, char** argv){
 
-    TRACE("    .||. ");
-    TRACE("   |o_o |");
-    TRACE("   |:_/ |");
-    TRACE("  //   \\ \\");
-    TRACE(" (|     | )");
-    TRACE("/'\\_   _/`\\");
-    TRACE("\\___)=(___/");
+//    TRACE("     ||  ");
+//    TRACE("    .--. ");
+//    TRACE("   |o_o |");
+//    TRACE("   |:_/ |");
+//    TRACE("  //   \\ \\");
+//    TRACE(" (|     | )");
+//    TRACE("/'\\_   _/`\\");
+//    TRACE("\\___)=(___/");
+
+    TRACE(".::::'`");
+  TRACE(": :::::'");
+TRACE(".::::::.::::::::::");
+TRACE("..:::::``::::::::");
+TRACE(",cC'':::::: .:::::::::::::");
+TRACE("\"?$$$$P'::::::::::::::::::::");
+TRACE("'':::::::::::::::::::::::");
+TRACE(".::::::::::: d$c`:`,c:::");
+TRACE("`::::::::::: $$$$, $$ :");
+TRACE(",,,,```:::::: F \"$'  ?::  ..:::::::::::..");
+TRACE(",d$$$$$$$$$$c,` '  ?::   . :::::::::::::::::");
+TRACE("d$$$$$$$$$$$$$$$$$$$c$F,d$$F::::::::::::::::::");
+TRACE("d$$$$$$$$$$$F?$$$$$$$$$.$$$$$ ::::::::::::::::::.");
+TRACE(",$$????$$$$$$$$$hccc-$$$$$$$$$$,::::::::::::::::',$");
+TRACE("'    4$$$$$$$$$$$$$$,\"?$$$$$$$$$c`:::::::::::'',$\"");
+TRACE("$$$\"\".$$$$$$$$$$$L`$$$$$$$$$$$bccc,ccc$$$$\"");
+TRACE("\"      ::: `?$$$$$$,??$$$$$$$$$$P\"????\"");
+TRACE(":::: `$$$$$$");
+TRACE(":::::`$d$");
+TRACE(":: :?$$$::::");
+TRACE(":::'.:4$$$'.:::");
+TRACE("::: ::4$$$$$ :`::");
+TRACE(":::`: $$$$$$L::`:");
+TRACE("`:::::?$$$$$$<: :");
+TRACE(",,  ``  :::\"$$$$ ::''");
+TRACE("$$??\" =4- ,,`::\"?::,c='? Lcdbc,");
+TRACE("c$$$$\",$$$$$c\"'  'dLd$$$$b,?$$$$");
+TRACE("??$$$$,??$$$$$$     $$$$$c $ $$ J");
+TRACE("\"?$$$$3`z$$$$P\"     \"?$$$$P\" \"    ");
 
 
-    setLoggingForDaemon();
     int opt=0;
     int iReturn=0;
     initArgs();
@@ -98,8 +129,6 @@ int main(int argc, char** argv){
     }while(opt!=-1);
 
 
-    CDBFileInfo *fileInfo=NULL;
-    CDBFileInfo *fileInfo2=NULL;
 
     if((globalArgs.host1!=NULL)&&(globalArgs.host1[0]=='\0')){
         TRACE("======NO HOST1 quit======");
@@ -120,7 +149,7 @@ int main(int argc, char** argv){
         globalArgs.host2=globalArgs.host1;
     };
     if((globalArgs.path2!=NULL)&&(globalArgs.path2[0]=='\0')){
-        TRACE("======NO PATH2  quit======");
+        TRACE("======NO PATH2  quit, if not repair======");
         if(!globalArgs.repair)return 0;
     };
     if((globalArgs.user2!=NULL)&&(globalArgs.user2[0]=='\0')){
@@ -130,22 +159,31 @@ int main(int argc, char** argv){
         globalArgs.pass2=globalArgs.pass1;
     };
 
+//    setLoggingForDaemon();
 
-    fileInfo=new CDBFileInfo(globalArgs.host1,globalArgs.path1,globalArgs.user1,globalArgs.pass1);
+
+
+    std::shared_ptr<CDBFileInfo> pntTargetFile(new CDBFileInfo(globalArgs.host1,globalArgs.path1,globalArgs.user1,globalArgs.pass1));
+
+    try{
     if(!globalArgs.repair){
-        fileInfo2=new CDBFileInfo(globalArgs.host2,globalArgs.path2,globalArgs.user2,globalArgs.pass2);
-
-        if(fileInfo->cmpDBFiles(*fileInfo2))
+        std::shared_ptr<CDBFileInfo> pntTemplateFile(new CDBFileInfo(globalArgs.host2,globalArgs.path2,globalArgs.user2,globalArgs.pass2));
+        if(pntTargetFile.get()->cmpDBFiles(*pntTemplateFile.get()))
             TRACE("======DBASES identical======");
         else{
             TRACE("=====DBASES NOT identical===");
             iReturn=2;
         }
-        delete fileInfo2;
     }else{
         TRACE("repair DB");
-        fileInfo->repairDB();
+        if(pntTargetFile.get()->repairDB())
+            TRACE("seems to be repaired DB");
+        else
+            TRACE("not repaired DB");
     }
-    delete fileInfo;
+    }catch (IBPP::Exception &e){
+        TRACE(e.ErrorMessage());
+    }
+
     return 0;
 }

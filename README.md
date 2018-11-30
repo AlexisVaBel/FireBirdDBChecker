@@ -1,2 +1,6 @@
 # FireBirdDBChecker
-Checks current DB file matches template DB file, by procedures, fields and so on
+Works with IBPP for Firebird,
+Purpose: check working db by its somewhere stored pattern
+repair db if needed,
+C++
+

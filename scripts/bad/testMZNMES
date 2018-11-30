@@ -1,0 +1,2 @@
+./FIRE_CHECKER -H localhost -P /work/cmn/db/mznkrp2/MZNKRP2MES.FDB -p /work/cmn/db/mznkrp2/MZNKRP2MES2.FDB
+echo "output code is "  $?

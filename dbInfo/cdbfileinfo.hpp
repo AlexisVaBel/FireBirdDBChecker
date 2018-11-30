@@ -2,6 +2,7 @@
 #define DBFILEINFO_H
 
 #include <vector>
+#include <memory>
 
 #include "ibpp/core/ibpp.h"
 #include "../cmn/usedtypes.h"
@@ -43,13 +44,24 @@ class CDBFileInfo
 public:
 
     CDBFileInfo( stringT &&servHost,stringT &&filePath, stringT &&userName, stringT &&password);
+
+    CDBFileInfo(CDBFileInfo *fileInfo);
+
+    CDBFileInfo &operator = (CDBFileInfo &&other){
+        if(this == &other)return *this;
+        m_strPath = other.m_strPath;
+        m_strHost = other.m_strHost;
+        m_strUser = other.m_strUser;
+        m_strPass = other.m_strPass;
+    }
+
     ~CDBFileInfo();    
     bool    disconnectDB();
     bool    cmpDBFiles(CDBFileInfo &dbInfo);
     bool    repairDB();
 protected:
     bool    existsElm(CDBElement *elmExt);
-    vctDBElmT *getVct();
+    std::shared_ptr<vctDBElmT> getVct();
 private:
     vctDBElmT     m_vctElm;
 
@@ -79,7 +91,7 @@ private:
     bool    compareVct(vctDBElmT vctExt);
     bool    findInVct(vctDBElmT vct1, CDBElement *elmExt);
 
-
+    bool    m_bCalledRepair;
 
 
 

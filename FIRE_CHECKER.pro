@@ -20,6 +20,8 @@ HEADERS += \
     loger/logging.h \
     dbInfo/cdbfileinfo.hpp
 
+
+
 SOURCES += \
     ibpp/core/_dpb.cpp \
     ibpp/core/_ibpp.cpp \
@@ -48,8 +50,15 @@ SOURCES += \
     loger/logging.cpp
 
 #for linux building
-DEFINES+=IBPP_LINUX=1
-INCLUDEPATH+=/opt/firebird/include
-LIBS+=-L/opt/firebird/lib -lfbclient
-LIBS+=-lboost_log -lboost_thread -lboost_date_time -lboost_system -lboost_filesystem -lpthread -lcrypto  -lssl
+DEFINES += IBPP_WINDOWS=1
+DEFINES += _WIN32=1
+#win32{
+#    DEFINES += IBPP_WINDOWS=1
+
+#}else{
+#    DEFINES+=IBPP_LINUX=1
+#    INCLUDEPATH+=/opt/firebird/include
+#    LIBS+=-L/opt/firebird/lib -lfbclient
+#    LIBS+=-lboost_log -lboost_thread -lboost_date_time -lboost_system -lboost_filesystem -lpthread -lcrypto  -lssl
+#}
 #for linux building

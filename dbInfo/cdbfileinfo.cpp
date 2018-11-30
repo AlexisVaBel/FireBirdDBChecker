@@ -18,6 +18,10 @@ param[in] password - user`s password
 */
 CDBFileInfo::CDBFileInfo(stringT &&servHost, stringT &&filePath, stringT &&userName, stringT &&password):
     m_strHost(servHost),m_strPath(filePath),m_strUser(userName),m_strPass(password){
+    m_strHost.erase(std::remove(m_strHost.begin(),m_strHost.end(),' '),m_strHost.end());
+    m_strPath.erase(std::remove(m_strPath.begin(),m_strPath.end(),' '),m_strPath.end());
+    m_strUser.erase(std::remove(m_strUser.begin(),m_strUser.end(),' '),m_strUser.end());
+    m_strPass.erase(std::remove(m_strPass.begin(),m_strPass.end(),' '),m_strPass.end());
 }
 
 CDBFileInfo::~CDBFileInfo(){

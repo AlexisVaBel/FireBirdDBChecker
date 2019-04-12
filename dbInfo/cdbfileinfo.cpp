@@ -18,7 +18,11 @@ param[in] userName - user to connect with
 param[in] password - user`s password
 */
 CDBFileInfo::CDBFileInfo(stringT &&servHost, stringT &&filePath, stringT &&userName, stringT &&password):
+<<<<<<< HEAD
+    m_strHost(servHost),m_strPath(filePath),m_strUser(userName),m_strPass(password){
+=======
     m_strHost(servHost),m_strPath(filePath),m_strUser(userName),m_strPass(password),m_bCalledRepair(false){
+>>>>>>> c7f8f6776c14d266fef4c43c1936f350236a4eea
     m_strHost.erase(std::remove(m_strHost.begin(),m_strHost.end(),' '),m_strHost.end());
     m_strPath.erase(std::remove(m_strPath.begin(),m_strPath.end(),' '),m_strPath.end());
     m_strUser.erase(std::remove(m_strUser.begin(),m_strUser.end(),' '),m_strUser.end());

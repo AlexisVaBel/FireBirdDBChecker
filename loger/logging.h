@@ -6,17 +6,20 @@
 
 
 
-#include <boost/log/core.hpp>
-#include <boost/log/trivial.hpp>
-#include <boost/log/expressions.hpp>
-#include <boost/log/utility/setup/file.hpp>
+//#include <boost/log/core.hpp>
+//#include <boost/log/trivial.hpp>
+//#include <boost/log/expressions.hpp>
+//#include <boost/log/utility/setup/file.hpp>
 
 //#define TRACE(msg)            std::cout << msg <<std::endl
 
 
-#define TRACE(msg)            BOOST_LOG_TRIVIAL(trace)<< msg
-#define INFO(msg)             BOOST_LOG_TRIVIAL(info) << msg
-#define ERR(msg)              BOOST_LOG_TRIVIAL(error)<< msg
+//#define TRACE(msg)            BOOST_LOG_TRIVIAL(trace)<< msg
+//#define INFO(msg)             BOOST_LOG_TRIVIAL(info) << msg
+//#define ERR(msg)              BOOST_LOG_TRIVIAL(error)<< msg
+#define TRACE(msg)            std::cout << msg <<std::endl
+#define INFO(msg)             std::cout << msg <<std::endl
+#define ERR(msg)              std::cout << msg <<std::endl
 
 void setLoggingForDaemon();
 

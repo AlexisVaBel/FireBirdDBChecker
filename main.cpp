@@ -87,6 +87,20 @@ void fillArgs(int opt){
 // 1 app crashed not enough arguments
 // 2 err mismatch tables
 
+<<<<<<< HEAD
+int main(int argc, char** argv){
+
+    TRACE("    .--. ");
+    TRACE("   |o_o |");
+    TRACE("   |:_/ |");
+    TRACE("  //   \\ \\");
+    TRACE(" (|     | )");
+    TRACE("/'\\_   _/`\\");
+    TRACE("\\___)=(___/");
+
+
+    setLoggingForDaemon();
+=======
 void printLabel(){
     TRACE(".::::'`");
     TRACE(": :::::'");
@@ -120,10 +134,21 @@ void printLabel(){
 }
 
 void readConf(int argc, char** argv){
+>>>>>>> c7f8f6776c14d266fef4c43c1936f350236a4eea
     int opt=0;
+<<<<<<< HEAD
     initArgs();    
+=======
+    initArgs();
+    TRACE("======getting args======");
+<<<<<<< HEAD
+    do{        
+        opt=getopt(argc,argv,optStrings);       
+=======
+>>>>>>> 3be0d13565ebba7b18ca0052afbb38d4c5107739
     do{
         opt=getopt(argc,argv,optStrings);
+>>>>>>> c7f8f6776c14d266fef4c43c1936f350236a4eea
         fillArgs(opt);
     }while(opt!=-1);    
 }
@@ -131,11 +156,22 @@ void readConf(int argc, char** argv){
 
 int main(int argc, char** argv){
 
+<<<<<<< HEAD
+
+    CDBFileInfo *fileInfo=NULL;
+    CDBFileInfo *fileInfo2=NULL;
+=======
     int iReturn = DB_NPROCS;
     printLabel();
     readConf(argc, argv);
+<<<<<<< HEAD
 //    TRACE("======1======");
     if((globalArgs.host1!=nullptr)&&(globalArgs.host1[0]=='\0')){
+=======
+>>>>>>> c7f8f6776c14d266fef4c43c1936f350236a4eea
+
+    if((globalArgs.host1!=NULL)&&(globalArgs.host1[0]=='\0')){
+>>>>>>> 3be0d13565ebba7b18ca0052afbb38d4c5107739
         TRACE("======NO HOST1 quit======");
         return iReturn;
     };
@@ -200,6 +236,11 @@ int main(int argc, char** argv){
     }catch (IBPP::Exception &e){
         TRACE(e.ErrorMessage());
     }
+<<<<<<< HEAD
+    delete fileInfo;
+    return 0;
+=======
 
     return iReturn;
+>>>>>>> c7f8f6776c14d266fef4c43c1936f350236a4eea
 }

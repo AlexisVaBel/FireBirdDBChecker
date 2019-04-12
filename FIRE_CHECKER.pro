@@ -50,6 +50,10 @@ SOURCES += \
 #for linux building
 DEFINES+=IBPP_LINUX=1
 INCLUDEPATH+=/opt/firebird/include
+#INCLUDEPATH+=/opt/boost/boost_build/include
+#LIBS+=-L/opt/firebird/lib -lfbclient
+#LIBS+=-L/opt/boost/boost_build/lib -lboost_log -lboost_thread -lboost_date_time -lboost_system -lboost_filesystem -lpthread -lcrypto  -lssl
+INCLUDEPATH+= /usr/include/boost
 LIBS+=-L/opt/firebird/lib -lfbclient
-LIBS+=-lboost_log -lboost_thread -lboost_date_time -lboost_system -lboost_filesystem -lpthread -lcrypto  -lssl
+LIBS += -L/usr/include/boost -lboost_log -lboost_thread -lboost_date_time -lboost_system -lboost_filesystem -lpthread -lcrypto  -lssl
 #for linux building

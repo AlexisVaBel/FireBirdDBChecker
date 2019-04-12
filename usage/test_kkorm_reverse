@@ -1,0 +1,1 @@
+./FIRE_CHECKER -H localhost -P  /work/cmn/db/kkorm/shd_kkorm.fdb -p /work/cmn/db/kkorm/evs_kkorm.fdb

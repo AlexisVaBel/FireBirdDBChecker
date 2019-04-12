@@ -88,15 +88,6 @@ void fillArgs(int opt){
 // 2 err mismatch tables
 
 void printLabel(){
-    //    TRACE("     ||  ");
-    //    TRACE("    .--. ");
-    //    TRACE("   |o_o |");
-    //    TRACE("   |:_/ |");
-    //    TRACE("  //   \\ \\");
-    //    TRACE(" (|     | )");
-    //    TRACE("/'\\_   _/`\\");
-    //    TRACE("\\___)=(___/");
-
     TRACE(".::::'`");
     TRACE(": :::::'");
     TRACE(".::::::.::::::::::");
@@ -130,12 +121,11 @@ void printLabel(){
 
 void readConf(int argc, char** argv){
     int opt=0;
-    initArgs();
-    TRACE("======getting args======");
+    initArgs();    
     do{
         opt=getopt(argc,argv,optStrings);
         fillArgs(opt);
-    }while(opt!=-1);
+    }while(opt!=-1);    
 }
 
 
@@ -144,33 +134,39 @@ int main(int argc, char** argv){
     int iReturn = DB_NPROCS;
     printLabel();
     readConf(argc, argv);
-
-    if((globalArgs.host1!=NULL)&&(globalArgs.host1[0]=='\0')){
+//    TRACE("======1======");
+    if((globalArgs.host1!=nullptr)&&(globalArgs.host1[0]=='\0')){
         TRACE("======NO HOST1 quit======");
         return iReturn;
     };
-    if((globalArgs.path1!=NULL)&&(globalArgs.path1[0]=='\0')){
+//    TRACE("======2======");
+    if((globalArgs.path1!=nullptr)&&(globalArgs.path1[0]=='\0')){
         TRACE("======NO PATH1 quit======");
         return iReturn;
     };
-    if((globalArgs.user1!=NULL)&&(globalArgs.user1[0]=='\0')){
+//    TRACE("======3======");
+    if((globalArgs.user1!=nullptr)&&(globalArgs.user1[0]=='\0')){
         globalArgs.user1=(char*)"SYSDBA";
     };
-    if((globalArgs.pass1!=NULL)&&(globalArgs.pass1[0]=='\0')){
-        globalArgs.pass1=(char*)"masterkey";
+//    TRACE("======4======");
+    if((globalArgs.pass1!=nullptr)&&(globalArgs.pass1[0]=='\0')){
+        globalArgs.pass1=(char*)"masterskey";
     };
-
-    if((globalArgs.host2!=NULL)&&(globalArgs.host2[0]=='\0')){
+//    TRACE("======5======");
+    if((globalArgs.host2!=nullptr)&&(globalArgs.host2[0]=='\0')){
         globalArgs.host2=globalArgs.host1;
     };
-    if((globalArgs.path2!=NULL)&&(globalArgs.path2[0]=='\0')){
+//    TRACE("======6======");
+    if((globalArgs.path2!=nullptr)&&(globalArgs.path2[0]=='\0')){
         TRACE("======NO PATH2  quit, if not repair======");
         if(!globalArgs.repair)return iReturn;
     };
-    if((globalArgs.user2!=NULL)&&(globalArgs.user2[0]=='\0')){
+//    TRACE("======7======");
+    if((globalArgs.user2!=nullptr)&&(globalArgs.user2[0]=='\0')){
         globalArgs.user2=globalArgs.user1;
     };
-    if((globalArgs.pass2!=NULL)&&(globalArgs.pass2[0]=='\0')){
+//    TRACE("======8======");
+    if((globalArgs.pass2!=nullptr)&&(globalArgs.pass2[0]=='\0')){
         globalArgs.pass2=globalArgs.pass1;
     };
 
@@ -178,8 +174,9 @@ int main(int argc, char** argv){
         setLoggingForDaemon();
 
 
-
+    TRACE("======args ok======");
     std::shared_ptr<CDBFileInfo> pntTargetFile(new CDBFileInfo(globalArgs.host1,globalArgs.path1,globalArgs.user1,globalArgs.pass1));
+
     try{
     if(!globalArgs.repair){
         iReturn = DB_OK;

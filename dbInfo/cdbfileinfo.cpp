@@ -6,9 +6,9 @@
 #include "../loger/logging.h"
 
 
-stringT STR_RDB_TABLES ="select RDB$RELATION_NAME as tbl from RDB$RELATIONS where (RDB$SYSTEM_FLAG=0)";
-stringT STR_RDB_TRIGS  ="select RDB$TRIGGER_NAME ,RDB$RELATION_NAME from RDB$TRIGGERS where RDB$SYSTEM_FLAG=0";
-stringT STR_RDB_GENS =  "select RDB$GENERATOR_NAME from RDB$GENERATORS";
+static stringT STR_RDB_TABLES ="select RDB$RELATION_NAME as tbl from RDB$RELATIONS where (RDB$SYSTEM_FLAG=0)";
+static stringT STR_RDB_TRIGS  ="select RDB$TRIGGER_NAME ,RDB$RELATION_NAME from RDB$TRIGGERS where RDB$SYSTEM_FLAG=0";
+static stringT STR_RDB_GENS =  "select RDB$GENERATOR_NAME from RDB$GENERATORS";
 
 /*!
 connect params
@@ -18,19 +18,14 @@ param[in] userName - user to connect with
 param[in] password - user`s password
 */
 CDBFileInfo::CDBFileInfo(stringT &&servHost, stringT &&filePath, stringT &&userName, stringT &&password):
-<<<<<<< HEAD
-    m_strHost(servHost),m_strPath(filePath),m_strUser(userName),m_strPass(password){
-=======
-    m_strHost(servHost),m_strPath(filePath),m_strUser(userName),m_strPass(password),m_bCalledRepair(false){
->>>>>>> c7f8f6776c14d266fef4c43c1936f350236a4eea
+    m_strPath(filePath),m_strHost(servHost),m_strUser(userName),m_strPass(password),m_bCalledRepair(false){
     m_strHost.erase(std::remove(m_strHost.begin(),m_strHost.end(),' '),m_strHost.end());
     m_strPath.erase(std::remove(m_strPath.begin(),m_strPath.end(),' '),m_strPath.end());
     m_strUser.erase(std::remove(m_strUser.begin(),m_strUser.end(),' '),m_strUser.end());
     m_strPass.erase(std::remove(m_strPass.begin(),m_strPass.end(),' '),m_strPass.end());
 }
 
-CDBFileInfo::CDBFileInfo(CDBFileInfo *fileInfo):
-    m_strHost(fileInfo->m_strHost),m_strPath(fileInfo->m_strPath),
+CDBFileInfo::CDBFileInfo(CDBFileInfo *fileInfo): m_strPath(fileInfo->m_strPath),m_strHost(fileInfo->m_strHost),
     m_strUser(fileInfo->m_strUser),m_strPass(fileInfo->m_strPass){
 }
 
@@ -179,7 +174,7 @@ bool CDBFileInfo::findInVct(vctDBElmT vct1, CDBElement *elmExt){
 bool CDBFileInfo::repairDB(){
     m_bCalledRepair = true;
     IBPP::Service svc=IBPP::ServiceFactory(m_strHost,m_strUser,m_strPass);
-    if(svc==NULL)return false;
+    if(svc==nullptr)return false;
     if(!svc->Connected()){
         svc->Connect();
     }    

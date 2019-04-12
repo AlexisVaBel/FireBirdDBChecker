@@ -1,7 +1,6 @@
 #include "loger/logging.h"
 #include "dbInfo/cdbfileinfo.hpp"
 #include "getopt.h"
-#include <memory>
 
 // example
 //-H localhost -P /work/cmn/db/mznkrp2/MZNKRP2MES.FDB -p /work/cmn/db/mznkrp2/MZNKRP2MES2.FDB
@@ -21,7 +20,7 @@ struct globalArgs_t{
     char *host2;    /*h*/
     char *path2;    /*p*/
     char *user2;    /*u*/
-    char *pass2;    /*w*/
+    char *pass2;    /*w*/    
     bool repair;    /*R*/
     bool silent;    /*S*/
 }globalArgs;
@@ -83,24 +82,7 @@ void fillArgs(int opt){
 }
 
 
-// error codes
-// 1 app crashed not enough arguments
-// 2 err mismatch tables
 
-<<<<<<< HEAD
-int main(int argc, char** argv){
-
-    TRACE("    .--. ");
-    TRACE("   |o_o |");
-    TRACE("   |:_/ |");
-    TRACE("  //   \\ \\");
-    TRACE(" (|     | )");
-    TRACE("/'\\_   _/`\\");
-    TRACE("\\___)=(___/");
-
-
-    setLoggingForDaemon();
-=======
 void printLabel(){
     TRACE(".::::'`");
     TRACE(": :::::'");
@@ -133,75 +115,53 @@ void printLabel(){
     TRACE("\"?$$$$3`z$$$$P\"     \"?$$$$P\" \"    ");
 }
 
+// error codes
+// 1 app crashed not enough arguments
+// 2 err mismatch tables
+
+
 void readConf(int argc, char** argv){
->>>>>>> c7f8f6776c14d266fef4c43c1936f350236a4eea
     int opt=0;
-<<<<<<< HEAD
-    initArgs();    
-=======
     initArgs();
     TRACE("======getting args======");
-<<<<<<< HEAD
-    do{        
-        opt=getopt(argc,argv,optStrings);       
-=======
->>>>>>> 3be0d13565ebba7b18ca0052afbb38d4c5107739
     do{
         opt=getopt(argc,argv,optStrings);
->>>>>>> c7f8f6776c14d266fef4c43c1936f350236a4eea
         fillArgs(opt);
-    }while(opt!=-1);    
+    }while(opt!=-1);
 }
 
 
 int main(int argc, char** argv){
-
-<<<<<<< HEAD
-
-    CDBFileInfo *fileInfo=NULL;
-    CDBFileInfo *fileInfo2=NULL;
-=======
+//    setLoggingForDaemon();
     int iReturn = DB_NPROCS;
     printLabel();
     readConf(argc, argv);
-<<<<<<< HEAD
-//    TRACE("======1======");
-    if((globalArgs.host1!=nullptr)&&(globalArgs.host1[0]=='\0')){
-=======
->>>>>>> c7f8f6776c14d266fef4c43c1936f350236a4eea
 
-    if((globalArgs.host1!=NULL)&&(globalArgs.host1[0]=='\0')){
->>>>>>> 3be0d13565ebba7b18ca0052afbb38d4c5107739
+    if((globalArgs.host1!=nullptr)&&(globalArgs.host1[0]=='\0')){
         TRACE("======NO HOST1 quit======");
-        return iReturn;
+        return 0;
     };
-//    TRACE("======2======");
     if((globalArgs.path1!=nullptr)&&(globalArgs.path1[0]=='\0')){
         TRACE("======NO PATH1 quit======");
-        return iReturn;
+        return 0;
     };
-//    TRACE("======3======");
     if((globalArgs.user1!=nullptr)&&(globalArgs.user1[0]=='\0')){
         globalArgs.user1=(char*)"SYSDBA";
     };
-//    TRACE("======4======");
     if((globalArgs.pass1!=nullptr)&&(globalArgs.pass1[0]=='\0')){
         globalArgs.pass1=(char*)"masterskey";
     };
-//    TRACE("======5======");
+
     if((globalArgs.host2!=nullptr)&&(globalArgs.host2[0]=='\0')){
         globalArgs.host2=globalArgs.host1;
     };
-//    TRACE("======6======");
     if((globalArgs.path2!=nullptr)&&(globalArgs.path2[0]=='\0')){
-        TRACE("======NO PATH2  quit, if not repair======");
-        if(!globalArgs.repair)return iReturn;
+        TRACE("======NO PATH2  quit======");
+        if(!globalArgs.repair)return 0;
     };
-//    TRACE("======7======");
     if((globalArgs.user2!=nullptr)&&(globalArgs.user2[0]=='\0')){
         globalArgs.user2=globalArgs.user1;
     };
-//    TRACE("======8======");
     if((globalArgs.pass2!=nullptr)&&(globalArgs.pass2[0]=='\0')){
         globalArgs.pass2=globalArgs.pass1;
     };
@@ -236,11 +196,6 @@ int main(int argc, char** argv){
     }catch (IBPP::Exception &e){
         TRACE(e.ErrorMessage());
     }
-<<<<<<< HEAD
-    delete fileInfo;
-    return 0;
-=======
 
     return iReturn;
->>>>>>> c7f8f6776c14d266fef4c43c1936f350236a4eea
 }
